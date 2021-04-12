@@ -46,25 +46,25 @@ class AccountMove(models.Model):
         res = super(AccountMove, self)._onchange_partner_id()
         invoice_approval_id = self.env['invoice.approval'].search([])
         self.approval_ids = None
-        if invoice_approval_id.approve_customer_invoice and self.type == 'out_invoice':
+        if invoice_approval_id.approve_customer_invoice and self.move_type == 'out_invoice':
             for user in invoice_approval_id.invoice_approver_ids:
                 vals = {
                     'approver_id': user.id
                 }
                 self.approval_ids |= self.approval_ids.new(vals)
-        elif invoice_approval_id.approve_vendor_bill and self.type == 'in_invoice':
+        elif invoice_approval_id.approve_vendor_bill and self.move_type == 'in_invoice':
             for user in invoice_approval_id.bill_approver_ids:
                 vals = {
                     'approver_id': user.id
                 }
                 self.approval_ids |= self.approval_ids.new(vals)
-        elif invoice_approval_id.approve_customer_credit and self.type == 'out_refund':
+        elif invoice_approval_id.approve_customer_credit and self.move_type == 'out_refund':
             for user in invoice_approval_id.cust_credit_approver_ids:
                 vals = {
                     'approver_id': user.id
                 }
                 self.approval_ids |= self.approval_ids.new(vals)
-        elif invoice_approval_id.approve_vendor_credit and self.type == 'in_refund':
+        elif invoice_approval_id.approve_vendor_credit and self.move_type == 'in_refund':
             for user in invoice_approval_id.vend_credit_approver_ids:
                 vals = {
                     'approver_id': user.id
