@@ -14,7 +14,7 @@
             <xpath expr="//button[@name='action_post']" position="before">
                 <button name="invoice_approve" class="oe_highlight"
                         string="Approve" type="object" groups="invoice_multi_approval.group_approver,invoice_multi_approval.group_approve_manager"
-                        attrs="{'invisible': ['|','|','|',('check_approve_ability', '!=', True),('document_fully_approved', '=', True),('is_approved','=',True),('type','not in',('in_invoice','out_invoice','in_refund','out_refund'))]}"/>
+                        attrs="{'invisible': ['|','|','|',('check_approve_ability', '!=', True),('document_fully_approved', '=', True),('is_approved','=',True),('move_type','not in',('in_invoice','out_invoice','in_refund','out_refund'))]}"/>
             </xpath>
 <!--             <xpath expr="//button[@name='action_post']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('document_fully_approved', '!=',
@@ -28,7 +28,7 @@
             
             <xpath expr="//page[@id='other_tab']" position="after">
                 <page string="Approvals" name="approval_tab"
-                      attrs="{'invisible': ['|',('type','not in',('in_invoice','out_invoice','in_refund','out_refund')),('page_visibility','=',False)]}">
+                      attrs="{'invisible': ['|',('move_type','not in',('in_invoice','out_invoice','in_refund','out_refund')),('page_visibility','=',False)]}">
                     <group>
                         <field name="approval_ids" mode="tree" nolabel="1" style="pointer-events:none;">
                             <tree string="Approval lines" create="0" edit="0" delete="0">
