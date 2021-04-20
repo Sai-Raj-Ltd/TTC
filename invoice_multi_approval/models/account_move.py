@@ -168,8 +168,8 @@ class AccountAnalyticAccount(models.Model):
     @api.depends('debit', 'credit')
     def _compute_percentage(self):
         for rec in self:
-            if not float_is_zero(rec.debit):
-                value = 100 * (rec.debit - rec.credit) / rec.debit
+            if not float_is_zero(rec.debit, precision_digits=2):
+                value = 100 * (rec.credit - rec.debit) / rec.credit
                 rec.percentage = f'{round(value,2)}%'
             else:
                 rec.percentage = '0%'
