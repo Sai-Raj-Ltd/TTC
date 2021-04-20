@@ -26,8 +26,10 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     approval_ids = fields.One2many('approval.line', 'move_id')
-    document_fully_approved = fields.Boolean(compute='_compute_document_fully_approved')
-    check_approve_ability = fields.Boolean(compute='_compute_check_approve_ability')
+    document_fully_approved = fields.Boolean(
+        compute='_compute_document_fully_approved')
+    check_approve_ability = fields.Boolean(
+        compute='_compute_check_approve_ability')
     is_approved = fields.Boolean(compute='_compute_is_approved')
     page_visibility = fields.Boolean(compute='_compute_page_visibility')
 
@@ -118,7 +120,8 @@ class AccountMove(models.Model):
         the document is completely approved or not"""
         length_approval_ids = len(self.approval_ids)
         approval_ids = self.approval_ids
-        approve_lines = approval_ids.filtered(lambda item: item.approval_status)
+        approve_lines = approval_ids.filtered(
+            lambda item: item.approval_status)
         length_approve_lines = len(approve_lines)
         if length_approval_ids == length_approve_lines:
             self.document_fully_approved = True
@@ -133,8 +136,8 @@ class ApprovalLine(models.Model):
     move_id = fields.Many2one('account.move')
     approver_id = fields.Many2one('res.users', string='Approver')
     approval_status = fields.Boolean(string='Status')
-    
-    
+
+
 class AccountMoveReversal(models.TransientModel):
     _inherit = 'account.move.reversal'
 
@@ -153,3 +156,16 @@ class AccountMoveReversal(models.TransientModel):
 
         reversal_vals['approval_ids'] = approval_ids
         return reversal_vals
+
+
+class AccountAnalyticAccount(models.Model):
+    _inherit = 'account.analytic.account'
+
+    percentage = fields.Char(
+        string='Percentage', compute='_compute_percentage')
+
+    @api.depends('debit', 'credit')
+    def _compute_percentage(self):
+        for rec in self:
+            value = 100 * (rec.debit - rec.credit) / rec.debit
+            rec.percentage = f'{round(value,2)}%'

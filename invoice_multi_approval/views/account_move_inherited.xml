@@ -12,23 +12,19 @@
                 <field name="page_visibility" invisible="1"/>
             </xpath>
             <xpath expr="//button[@name='action_post']" position="before">
-                <button name="invoice_approve" class="oe_highlight"
-                        string="Approve" type="object" groups="invoice_multi_approval.group_approver,invoice_multi_approval.group_approve_manager"
-                        attrs="{'invisible': ['|','|','|',('check_approve_ability', '!=', True),('document_fully_approved', '=', True),('is_approved','=',True),('move_type','not in',('in_invoice','out_invoice','in_refund','out_refund'))]}"/>
+                <button name="invoice_approve" class="oe_highlight" string="Approve" type="object" groups="invoice_multi_approval.group_approver,invoice_multi_approval.group_approve_manager" attrs="{'invisible': ['|','|','|',('check_approve_ability', '!=', True),('document_fully_approved', '=', True),('is_approved','=',True),('move_type','not in',('in_invoice','out_invoice','in_refund','out_refund'))]}"/>
             </xpath>
-<!--             <xpath expr="//button[@name='action_post']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('document_fully_approved', '!=',
-                    True),('state','=','posted')]}
+            <!--             <xpath expr="//button[@name='action_post']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('document_fully_approved', '!=', True),('state','=','posted')]}
                 </attribute>
             </xpath> -->
             <xpath expr="//button[@name='action_post']" position="replace">
                 <button type="object" class="oe_highlight" string="Post" name="action_post" groups="invoice_multi_approval.group_approver,invoice_multi_approval.group_approve_manager" attrs="{'invisible': ['|',('document_fully_approved', '!=',True),('state','=','posted')]}" />
             </xpath>
 
-            
+
             <xpath expr="//page[@id='other_tab']" position="after">
-                <page string="Approvals" name="approval_tab"
-                      attrs="{'invisible': ['|',('move_type','not in',('in_invoice','out_invoice','in_refund','out_refund')),('page_visibility','=',False)]}">
+                <page string="Approvals" name="approval_tab" attrs="{'invisible': ['|',('move_type','not in',('in_invoice','out_invoice','in_refund','out_refund')),('page_visibility','=',False)]}">
                     <group>
                         <field name="approval_ids" mode="tree" nolabel="1" style="pointer-events:none;">
                             <tree string="Approval lines" create="0" edit="0" delete="0">
@@ -41,8 +37,37 @@
             </xpath>
         </field>
     </record>
-    <menuitem id="approval_main_menu" name="Approvals" parent="account.menu_finance_configuration" sequence="10"
-              groups="group_approve_manager"/>
-    <menuitem id="approval_sub_menu" name="Invoice Approval" parent="approval_main_menu"
-              action="approval_sub_menu_action" sequence="1" groups="group_approve_manager"/>
+
+    <menuitem id="approval_main_menu" name="Approvals" parent="account.menu_finance_configuration" sequence="10" groups="group_approve_manager"/>
+
+    <menuitem id="approval_sub_menu" name="Invoice Approval" parent="approval_main_menu" action="approval_sub_menu_action" sequence="1" groups="group_approve_manager"/>
+
+    <!-- account.analytic.account inherit form view -->
+    <record id="percentage_view_account_analytic_account_form" model="ir.ui.view">
+        <field name="name">account.analytic.account.inherit.view.form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="percentage" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- account.analytic.account inherit form view -->
+    <record id="percentage_view_account_analytic_account_list" model="ir.ui.view">
+        <field name="name">account.analytic.account.inherit.view.form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='balance']" position="after">
+                <field name="percentage"/>
+            </xpath>
+
+        </field>
+    </record>
+
 </odoo>
