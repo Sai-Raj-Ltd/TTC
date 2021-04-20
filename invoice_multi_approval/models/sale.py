@@ -2,10 +2,10 @@ from odoo import models
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
-    
+
     def _prepare_invoice(self):
-        invoice_vals = super()._prepare_invoice()   
-        
+        invoice_vals = super()._prepare_invoice()
+
         approver_lines = []
         invoice_approval_ids = self.env['invoice.approval'].search(
             []).mapped('invoice_approver_ids')
@@ -16,4 +16,18 @@ class SaleOrder(models.Model):
         invoice_vals['approval_ids'] = approver_lines
         return invoice_vals
 
-      
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+
+    def _prepare_invoice(self):
+        invoice_vals = super()._prepare_invoice()
+
+        approver_lines = []
+        invoice_approval_ids = self.env['invoice.approval'].search(
+            []).mapped('bill_approver_ids')
+
+        for ids in invoice_approval_ids:
+            val = {'approver_id': ids}
+            approver_lines.append((0, 0, val))
+        invoice_vals['approval_ids'] = approver_lines
+        return invoice_vals
