@@ -43,7 +43,7 @@
         'data/salary_advance_data.xml',
         'data/categories_data.xml',
         'data/rules_data.xml',
-        'data/salary_structure_data.xml',
+#         'data/salary_structure_data.xml',
         'data/benefits_data.xml',
         'data/cash_allowances_data.xml',
         'data/deductions_data.xml',
