@@ -51,7 +51,7 @@
         'data/payroll_structure_types.xml',
         'data/payroll_structure.xml',
         'data/res.bank.csv',
-        # 'data/hr_contract_data.xml',
+        'data/hr_contract_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [],
