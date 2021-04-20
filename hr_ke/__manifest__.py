@@ -23,7 +23,7 @@
     'version': '0.6',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr', 'hr_contract', 'account', 'attachment_indexation'],
+    'depends': ['base', 'hr', 'hr_contract', 'account','hr_payroll','hr_payroll_account', 'attachment_indexation'],
     'external_dependencies': {'python': ['openpyxl']},
 
     # always loaded
@@ -42,14 +42,14 @@
         'data/overtime_data.xml',
         'data/salary_advance_data.xml',
         'data/categories_data.xml',
-        'data/rules_data.xml',
+        #'data/rules_data.xml',
         'data/salary_structure_data.xml',
         'data/benefits_data.xml',
         'data/cash_allowances_data.xml',
         'data/deductions_data.xml',
         'data/tax_relief_data.xml',
-        'data/payroll_structure_types.xml',
-        'data/payroll_structure.xml'
+        #'data/payroll_structure_types.xml',
+        #'data/payroll_structure.xml'
         'data/res.bank.csv',
         # 'data/hr_contract_data.xml',
     ],
