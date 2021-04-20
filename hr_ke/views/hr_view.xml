@@ -4,7 +4,7 @@
         <!--Add Fill KRA P10 Form Button-->
         <record id="hr_ke_kra_form_inherit1" model="ir.ui.view">
             <field name="model">hr.payslip.run</field>
-            <field name="inherit_id" ref="om_hr_payroll.hr_payslip_run_form"/>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//header"
@@ -21,7 +21,7 @@
                                 string="Net-Pay List" class="oe_highlight"/>
                         <button name="BatchConfirmPayslip" type="object"
                                 string="Confirm" class="oe_highlight"
-                                groups="om_hr_payroll.group_hr_payroll_manager"/>
+                                groups="hr_payroll.group_hr_payroll_manager"/>
                     </xpath>
                 </data>
             </field>
@@ -29,7 +29,7 @@
         Add Print Excel Button to payslip
         <record id="hr_ke_payslip_excel_form_inherit1" model="ir.ui.view">
             <field name="model">hr.payslip</field>
-            <field name="inherit_id" ref="om_hr_payroll.view_hr_payslip_form"/>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//button[@name= 'action_payslip_cancel']"
@@ -41,7 +41,7 @@
                     <xpath expr="//button[@name= 'action_payslip_done']"
                            position="attributes">
                         <attribute name="groups">
-                            om_hr_payroll.group_hr_payroll_manager
+                            hr_payroll.group_hr_payroll_manager
                         </attribute>
                     </xpath>
                 </data>
@@ -79,26 +79,26 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="menu_ke_cash_allowances_type"
-                  parent="om_hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
                   name="Cash Allowances" sequence="101"
                   action="ke_cash_allowances_type_action"
                   groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_benefits_type"
-                  parent="om_hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
                   name="Non-Cash Benefits" sequence="102"
                   action="ke_benefits_type_action"
                   groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_reliefs_type"
-                  parent="om_hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
                   name="Tax Relief" sequence="103"
                   action="ke_reliefs_type_action" groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_deductions_type"
-                  parent="om_hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
                   name="After Tax Deductions" sequence="104"
                   action="ke_deductions_type_action"
                   groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_relations_type"
-                  parent="om_hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_payroll.menu_hr_payroll_configuration"
                   sequence="105" action="ke_relation_type_action"
                   groups="hr.group_hr_manager"/>
         <!-- Benefits Type Form view-->
