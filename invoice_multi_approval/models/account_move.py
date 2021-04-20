@@ -20,6 +20,7 @@
 #
 #############################################################################
 from odoo import api, fields, models
+from odoo.tools import float_is_zero
 
 
 class AccountMove(models.Model):
@@ -167,5 +168,8 @@ class AccountAnalyticAccount(models.Model):
     @api.depends('debit', 'credit')
     def _compute_percentage(self):
         for rec in self:
-            value = 100 * (rec.debit - rec.credit) / rec.debit
-            rec.percentage = f'{round(value,2)}%'
+            if not float_is_zero(rec.debit):
+                value = 100 * (rec.debit - rec.credit) / rec.debit
+                rec.percentage = f'{round(value,2)}%'
+            else:
+                rec.percentage = '0%'
