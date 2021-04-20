@@ -43,7 +43,7 @@
         'data/salary_advance_data.xml',
         'data/categories_data.xml',
         'data/rules_data.xml',
-#         'data/salary_structure_data.xml',
+        'data/salary_structure_data.xml',
         'data/benefits_data.xml',
         'data/cash_allowances_data.xml',
         'data/deductions_data.xml',
@@ -51,7 +51,7 @@
         'data/payroll_structure_types.xml',
         'data/payroll_structure.xml',
         'data/res.bank.csv',
-        'data/hr_contract_data.xml',
+#         'data/hr_contract_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [],
