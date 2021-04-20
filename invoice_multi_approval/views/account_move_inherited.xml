@@ -19,7 +19,7 @@
                 </attribute>
             </xpath> -->
             <xpath expr="//button[@name='action_post']" position="replace">
-                <button type="object" class="oe_highlight" string="Post" name="action_post" groups="invoice_multi_approval.group_approver,invoice_multi_approval.group_approve_manager" attrs="{'invisible': ['|','|',('document_fully_approved', '!=',True),('state','=','posted'),('check_approve_ability', '!=', True)]}" />
+                <button type="object" class="oe_highlight" string="Post" name="action_post" groups="invoice_multi_approval.group_approver,invoice_multi_approval.group_approve_manager" attrs="{'invisible': ['|','&amp;',('document_fully_approved', '!=',True),('state','=','posted'),('check_approve_ability', '!=', True)]}" />
             </xpath>
 
 
