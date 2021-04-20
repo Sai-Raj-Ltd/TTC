@@ -23,7 +23,7 @@
     'version': '0.6',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr', 'hr_contract', 'account', 'om_hr_payroll', 'om_hr_payroll_account', 'attachment_indexation'],
+    'depends': ['base', 'hr', 'hr_contract', 'account', 'attachment_indexation'],
     'external_dependencies': {'python': ['openpyxl']},
 
     # always loaded
