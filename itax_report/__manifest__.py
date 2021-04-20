@@ -19,9 +19,8 @@
     'category': 'Reports',
     'depends': ['account'],
     'data': [
-
+        'security/ir.model.access.csv',
         'wizard/vat_report_view.xml',
-        'views/menu.xml'
     ],
     'installable': True,
 }
