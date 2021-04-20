@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_sale_vat_report" name="Sale Vat Report" action="itax_report.act_sale_vat_report_wizard" parent="account.account_reports_management_menu" sequence="10"/>
+
+        <!-- <menuitem action="act_sale_vat_report_wizard" name="Sale Vat Report" id="menu_sale_vat_report" parent="account.account_reports_management_menu" sequence="21"/> -->
+
+
+
+        <menuitem action="act_purchase_vat_report_wizard" name="Purchase Vat Report" id="menu_purchase_vat_report" parent="account.account_reports_management_menu" sequence="21"/>
+
+    </data>
+</odoo>
