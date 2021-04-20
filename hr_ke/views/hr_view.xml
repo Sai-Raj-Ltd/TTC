@@ -79,26 +79,26 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="menu_ke_cash_allowances_type"
-                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_work_entry_contract.menu_hr_payroll_configuration"
                   name="Cash Allowances" sequence="101"
                   action="ke_cash_allowances_type_action"
                   groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_benefits_type"
-                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_work_entry_contract.menu_hr_payroll_configuration"
                   name="Non-Cash Benefits" sequence="102"
                   action="ke_benefits_type_action"
                   groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_reliefs_type"
-                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_work_entry_contract.menu_hr_payroll_configuration"
                   name="Tax Relief" sequence="103"
                   action="ke_reliefs_type_action" groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_deductions_type"
-                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_work_entry_contract.menu_hr_payroll_configuration"
                   name="After Tax Deductions" sequence="104"
                   action="ke_deductions_type_action"
                   groups="hr.group_hr_manager"/>
         <menuitem id="menu_ke_relations_type"
-                  parent="hr_payroll.menu_hr_payroll_configuration"
+                  parent="hr_work_entry_contract.menu_hr_payroll_configuration"
                   sequence="105" action="ke_relation_type_action"
                   groups="hr.group_hr_manager"/>
         <!-- Benefits Type Form view-->
