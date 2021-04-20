@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-         <record id="sale_vat_report_from" model="ir.ui.view">
+        <record id="sale_vat_report_from" model="ir.ui.view">
             <field name="name">vat.report.wizard.from</field>
             <field name="model">vat.report.wizard</field>
             <field name="arch" type="xml">
@@ -29,8 +29,7 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem action="act_sale_vat_report_wizard" name="Sale Vat Report"
-               id="menu_sale_vat_report" parent="account.account_reports_management_menu" sequence="21"/>
+        <!-- <menuitem action="act_sale_vat_report_wizard" name="Sale Vat Report" id="menu_sale_vat_report" parent="account.account_reports_management_menu" sequence="21"/> -->
 
         <record id="purchase_vat_report_from" model="ir.ui.view">
             <field name="name">vat.report.wizard.from</field>
@@ -60,8 +59,7 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem action="act_purchase_vat_report_wizard" name="Purchase Vat Report"
-              id="menu_purchase_vat_report" parent="account.account_reports_management_menu" sequence="21"/>
+        <menuitem action="act_purchase_vat_report_wizard" name="Purchase Vat Report" id="menu_purchase_vat_report" parent="account.account_reports_management_menu" sequence="21"/>
 
         <record id="wizard_excel_report_from" model="ir.ui.view">
             <field name="name">wizard.excel.report.from</field>
@@ -71,7 +69,7 @@
                     <sheet>
                         <group>
                             <field name="name" invisible="1"/>
-                            <field name="report" readonly="1"  filename="name"/>
+                            <field name="report" readonly="1" filename="name"/>
                         </group>
                     </sheet>
                     <footer>

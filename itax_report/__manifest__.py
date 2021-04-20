@@ -19,10 +19,9 @@
     'category': 'Reports',
     'depends': ['account'],
     'data': [
-        
+
         'wizard/vat_report_view.xml',
-        
-        
+        'views/menu.xml'
     ],
     'installable': True,
 }
