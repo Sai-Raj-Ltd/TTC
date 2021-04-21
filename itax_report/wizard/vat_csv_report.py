@@ -58,6 +58,7 @@ class VatReportWizard(models.TransientModel):
         no_vat_amount_total = 0
         # if invoice_objs.filtered(lambda inv: inv.partner_id.vat):
         if invoice_objs:
+            _logger.info("inv_objs exist")
             # for inv in invoice_objs.filtered(lambda inv: inv.partner_id.vat):
             for inv in invoice_objs:
                 rInv = False
@@ -77,6 +78,7 @@ class VatReportWizard(models.TransientModel):
                     for rec in self.tax_id:
                         for tax in invoice_line.tax_ids:
                             if rec.id == tax.id:
+                                _logger.info("matching tax")
                                 has_tax = True
 
                                 price = invoice_line.price_unit * (1 - (invoice_line.discount or 0.0) / 100.0)
@@ -88,7 +90,9 @@ class VatReportWizard(models.TransientModel):
                                 # for amount in taxes:
                                 #     tax_amount += amount['amount']
                 if has_tax:
+                    _logger.info("has tax")
                     if inv.partner_id.vat:
+                        _logger.info("partner has vat %s" % inv.partner_id.vat)
                         data = [inv.partner_id.vat or '',
                                 inv.partner_id.name or '',
                                 inv.company_id.company_registry or '',
@@ -98,13 +102,17 @@ class VatReportWizard(models.TransientModel):
                                 amount*inv.exchange_rate,
                                 '',
                                 inv.reversed_entry_id.name if rInv else '',
-                                inv.source_document_date.strftime("%d/%m/%Y")
-                                or inv.reversed_entry_id.invoice_date.strftime("%d/%m/%Y") if rInv else '', ]
+#                                 inv.source_document_date.strftime("%d/%m/%Y")
+#                                 or inv.reversed_entry_id.invoice_date.strftime("%d/%m/%Y") if rInv else '', ]
+                                inv.reversed_entry_id.invoice_date.strftime("%d/%m/%Y") if rInv else '', ]
 
                         csv_data.append(data)
                     else:
-                       no_vat_amount_total += amount*inv.exchange_rate
-
+                        _logger.info("partner has no vat")
+                        _logger.info("partner name %s" % inv.partner_id.name)
+                        _logger.info("partner vat %s" % inv.partner_id.vat)
+                        no_vat_amount_total += amount*inv.exchange_rate
+            _logger.info("csv data %s" % csv_data)
             no_vat_cash_data = [
                 'No VAT',
                 'Cash',
@@ -118,7 +126,7 @@ class VatReportWizard(models.TransientModel):
                 '',
             ]
             csv_data.append(no_vat_cash_data)
-
+            _logger.info("csv data %s" % csv_data)
             with open(file_path, "w") as writeFile:
                 writer = csv.writer(writeFile)
                 # writer.writerows([[
