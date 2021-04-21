@@ -48,7 +48,7 @@ class VatReportWizard(models.TransientModel):
 
         invoice_objs = self.env['account.move'].search([
             ('state', '=', 'posted'),
-            ('type', 'in', ['out_invoice', 'out_refund']),
+            ('move_type', 'in', ['out_invoice', 'out_refund']),
             ('invoice_date', '>=', startDate),
             ('invoice_date', '<=', endDate)
         ])
@@ -62,7 +62,7 @@ class VatReportWizard(models.TransientModel):
             for inv in invoice_objs:
                 rInv = False
                 has_tax = False
-                if inv.type == 'out_refund' and inv.reversed_entry_id:
+                if inv.move_type == 'out_refund' and inv.reversed_entry_id:
                     rInv = self.env['account.move'].search([
                         ('id', '=', inv.reversed_entry_id.id)])
                 amount = 0.0
@@ -81,7 +81,7 @@ class VatReportWizard(models.TransientModel):
 
                                 price = invoice_line.price_unit * (1 - (invoice_line.discount or 0.0) / 100.0)
                                 taxes = tax.compute_all(price, invoice_line.currency_id, invoice_line.quantity, product=invoice_line.product_id or False, partner=invoice_line.partner_id)
-                                if inv.type == 'out_refund':
+                                if inv.move_type == 'out_refund':
                                     amount += (-1 * taxes['taxes'][0]['base'])
                                 else:
                                     amount += taxes['taxes'][0]['base']
@@ -104,7 +104,7 @@ class VatReportWizard(models.TransientModel):
                         csv_data.append(data)
                     else:
                        no_vat_amount_total += amount*inv.exchange_rate
-            
+
             no_vat_cash_data = [
                 'No VAT',
                 'Cash',
@@ -170,7 +170,7 @@ class VatReportWizard(models.TransientModel):
 
         invoice_objs = self.env['account.move'].search([
             ('state', '=', 'posted'),
-            ('type', 'in', ['in_invoice', 'in_refund']),
+            ('move_type', 'in', ['in_invoice', 'in_refund']),
             ('invoice_date', '>=', startDate),
             ('invoice_date', '<=', endDate)
         ])
@@ -184,7 +184,7 @@ class VatReportWizard(models.TransientModel):
             for inv in invoice_objs:
                 rInv = False
                 has_tax = False
-                if inv.type == 'in_refund' and inv.reversed_entry_id:
+                if inv.move_type == 'in_refund' and inv.reversed_entry_id:
                     rInv = self.env['account.move'].search([
                         ('id', '=', inv.reversed_entry_id.id)])
                 amount = 0.0
@@ -195,7 +195,7 @@ class VatReportWizard(models.TransientModel):
                                 has_tax = True
                                 price = invoice_line.price_unit * (1 - (invoice_line.discount or 0.0) / 100.0)
                                 taxes = tax.compute_all(price, invoice_line.currency_id, invoice_line.quantity, product=invoice_line.product_id or False, partner=invoice_line.partner_id)
-                                if inv.type == 'in_refund':
+                                if inv.move_type == 'in_refund':
                                     amount += (-1 * taxes['taxes'][0]['base'])
                                 else:
                                     amount += taxes['taxes'][0]['base']
@@ -205,7 +205,7 @@ class VatReportWizard(models.TransientModel):
                                 inv.partner_id.vat,
                                 inv.partner_id.name,
                                 inv.invoice_date.strftime("%d/%m/%Y"),
-                                inv.credit_note_number if inv.type == 'in_refund' else inv.ven_inv_no,
+                                inv.credit_note_number if inv.move_type == 'in_refund' else inv.ven_inv_no,
                                 'Purchases',
                                 inv.custom_entry_number if inv.custom_entry_number else '',
                                 amount*inv.exchange_rate,
@@ -216,7 +216,7 @@ class VatReportWizard(models.TransientModel):
                         csv_data.append(data)
                     else:
                         no_vat_amount_total += amount*inv.exchange_rate
-            
+
             no_vat_cash_data = [
                 'Cash',
                 'No VAT',
