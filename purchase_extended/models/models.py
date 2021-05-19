@@ -70,4 +70,4 @@ class res_partner(models.Model):
 
     
     def make_checker(self):
-        self.status='Done'
+        self.status='Draft'
