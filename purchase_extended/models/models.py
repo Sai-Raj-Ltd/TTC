@@ -71,3 +71,9 @@ class res_partner(models.Model):
     
     def make_checker(self):
         self.status='Done'
+class ProductTemplate(models.Model):
+    _name = 'product.template'
+    _inherit = 'product.template'
+    
+    rating = fields.Selection(
+        [('0', 'Normal'), ('1', 'Low'), ('2','Medium'), ('3', 'High')], 'Rating', default='0', index=True)
