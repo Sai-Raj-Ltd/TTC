@@ -8,13 +8,32 @@
         <field name="arch" type="xml">
                 <xpath expr="//div[1]" position="after">
                     <header>
-                                        <button name="make_checker" string="Make as Checker" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','Maker')]}"/>
+                                        <button name="make_checker" string="Approve" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','Draft')]}"/>
 
                         <field name="status" widget="statusbar"/>
 
                     </header>
             </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                            <field name="rating" widget="priority" class="mr-3"/>
+            </xpath>
           </field>
       </record>
+      
+<!--                 <record id="res_partner_kanban_view_extended" model="ir.ui.view">
+        <field name="name">res.partner.kanban.extended</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="70"/>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+      
+          <xpath expr="//div[1]" position="inside">
+<div class="o_kanban_record_top mb16">
+                                    <field name="rating" widget="priority"/>
+
+                                </div>
+        </xpath>
+                      </field>
+      </record> -->
   </data>
 </odoo>
