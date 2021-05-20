@@ -64,7 +64,7 @@ class res_partner(models.Model):
     
     
     status = fields.Selection(
-        [('Draft', 'Draft'), ('Done', 'Done')], 'Draft', default='Maker', index=True)
+        [('Draft', 'Draft'), ('Done', 'Done')], 'Status', default='Draft', index=True)
     rating = fields.Selection(
         [('0', 'Normal'), ('1', 'Low'), ('2','Medium'), ('3', 'High')], 'Rating', default='0', index=True)
 
