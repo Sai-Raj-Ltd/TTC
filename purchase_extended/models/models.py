@@ -16,9 +16,25 @@ class PurchaseOrder(models.Model):
     priority = fields.Selection(
         [('0', 'Normal'), ('1', 'Low'), ('2','Medium'), ('3', 'High')], 'Priority', default='0', index=True)
     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, states=READONLY_STATES, change_default=True, tracking=True, domain="[('status','=','Done')]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
+    type = fields.Selection(
+        [('Stock Item', 'Stock Item'), ('CAPEX', 'CAPEX'), ('OPEX','OPEX')], default='Stock Item', index=True)
+    
+    
+    
+    @api.onchange('order_line')
+    def get_product_type(self):
+        type_loc=''
+        for rec in self.order_line:
+            if type_loc not in ['CAPEX','OPEX']:
+                type_loc=rec.type
+        self.type=type_loc
+        
+        
+        
+    
     
     @api.onchange('partner_id')
-    def _compute_tax_id(self):
+    def get_warning(self):
         warning = {}
         result = {}
         if self.partner_id.rating=='0':
@@ -77,3 +93,10 @@ class ProductTemplate(models.Model):
     
     rating = fields.Selection(
         [('0', 'Normal'), ('1', 'Low'), ('2','Medium'), ('3', 'High')], 'Rating', default='0', index=True)
+    
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+    
+    type = fields.Selection(
+        [('Stock Item', 'Stock Item'), ('CAPEX', 'CAPEX'), ('OPEX','OPEX')], default='Stock Item', index=True)
