@@ -166,3 +166,23 @@ class ProductProduct(models.Model):
             if not res or res.name == seller.name:
                 res |= seller
         return res.sorted(lambda s: s.name.name)
+
+    
+class AccountMove(models.Model):
+    _inherit = "account.move"
+    
+    is_credit = fields.Boolean(compute="_get_credit_note")
+    approved = fields.Boolean(default=False)
+    
+    
+    def _get_credit_note(self):
+        for rec in self:
+            if self.env['account.move'].search([  ('partner_id', '=', rec.partner_id.id),
+            ('move_type', '=', 'in_refund'),
+            ('payment_state', '!=', 'paid')]):
+                rec.is_credit=False
+            else:
+                rec.is_credit=True
+            
+    def get_approve(self):
+        self.approved=True    
