@@ -97,11 +97,10 @@
           </field>
       </record>
 
-  </data>
-</odoo>
 
 
-                <record id="view_move_form_extended" model="ir.ui.view">
+
+        <record id="view_move_form_extended" model="ir.ui.view">
         <field name="name">account.move.form.extended</field>
         <field name="model">account.move</field>
         <field name="priority" eval="70"/>
@@ -123,3 +122,5 @@
 </xpath> 
           </field>
       </record>
+  </data>
+</odoo>
