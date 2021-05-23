@@ -67,18 +67,8 @@ class PurchaseOrder(models.Model):
     def get_warning(self):
         warning = {}
         result = {}
-        if self.partner_id.rating=='0':
-            records = self.env['res.partner'].search([('rating', 'in', ['1','2','3']),('status', '=', 'Done')])
-            if records:
-                warning = {
-                        'title': ('Alert!'),
-                        'message': ('There exists a vendor with higher rating'),
-                    }
-                if warning:
-                    result['warning'] = warning
-                    return result
-        if self.partner_id.rating=='1':
-            records = self.env['res.partner'].search([('rating', 'in', ['2','3']),('status', '=', 'Done')])
+        if self.partner_id.rating=='3':
+            records = self.env['res.partner'].search([('rating', 'in', ['1','2','0']),('status', '=', 'Done')])
             if records:
                 warning = {
                         'title': ('Alert!'),
@@ -88,7 +78,17 @@ class PurchaseOrder(models.Model):
                     result['warning'] = warning
                     return result
         if self.partner_id.rating=='2':
-            records = self.env['res.partner'].search([('rating', 'in', ['3']),('status', '=', 'Done')])
+            records = self.env['res.partner'].search([('rating', 'in', ['1','0']),('status', '=', 'Done')])
+            if records:
+                warning = {
+                        'title': ('Alert!'),
+                        'message': ('There exists a vendor with higher rating'),
+                    }
+                if warning:
+                    result['warning'] = warning
+                    return result
+        if self.partner_id.rating=='1':
+            records = self.env['res.partner'].search([('rating', 'in', ['0']),('status', '=', 'Done')])
             if records:
                 warning = {
                         'title': ('Alert!'),
@@ -112,7 +112,7 @@ class res_partner(models.Model):
     status = fields.Selection(
         [('Draft', 'Draft'), ('Done', 'Done')], 'Status', default='Draft', index=True)
     rating = fields.Selection(
-        [('0', 'Normal'), ('1', 'Low'), ('2','Medium'), ('3', 'High')], 'Rating', default='0', index=True)
+        [('3', 'Normal'), ('2', 'Low'), ('1','Medium'), ('0', 'High')], 'Rating', default='3', index=True)
 
     
     def make_checker(self):
@@ -135,7 +135,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"    
     
     def _prepare_sellers(self, params=False):
-        return self.seller_ids.filtered(lambda s: s.name.active).sorted(lambda s: (s.name.name,s.sequence, -s.min_qty, s.price, s.id))
+        return self.seller_ids.filtered(lambda s: s.name.active).sorted(lambda s: (s.name.rating,s.sequence, -s.min_qty, s.price, s.id))
 
     
     def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False, params=False):
@@ -165,7 +165,7 @@ class ProductProduct(models.Model):
                 continue
             if not res or res.name == seller.name:
                 res |= seller
-        return res.sorted(lambda s: s.name.name)
+        return res.sorted(lambda s: s.name.rating)
 
     
 class AccountMove(models.Model):
