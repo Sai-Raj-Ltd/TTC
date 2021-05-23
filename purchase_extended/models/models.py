@@ -19,7 +19,16 @@ class PurchaseOrder(models.Model):
     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, states=READONLY_STATES, change_default=True, tracking=True, domain="[('status','=','Done')]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     type = fields.Selection(
         [('Stock Item', 'Stock Item'), ('CAPEX', 'CAPEX'), ('OPEX','OPEX')], default='Stock Item', index=True)
-    
+    state = fields.Selection([
+        ('draft', 'RFQ'),
+        ('sent', 'RFQ Sent'),
+        ('validated', 'Validated'),
+        ('approved', 'Approved'),
+        ('to approve', 'To Approve'),
+        ('purchase', 'Purchase Order'),
+        ('done', 'Locked'),
+        ('cancel', 'Cancelled')
+    ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)    
     
     
     @api.onchange('order_line')
