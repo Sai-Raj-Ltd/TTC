@@ -31,6 +31,26 @@ class PurchaseOrder(models.Model):
     ], string='Status', readonly=True, index=True, copy=False, default='draft', tracking=True)    
     
     
+    def button_validate(self):
+        self.state='validated'
+    def button_approved(self):
+        self.state='approved'
+    
+    def button_confirm(self):
+        for order in self:
+            if order.state not in ['draft', 'sent','approved']:
+                continue
+            order._add_supplier_to_product()
+            # Deal with double validation process
+            if order._approval_allowed():
+                order.button_approve()
+            else:
+                order.write({'state': 'to approve'})
+            if order.partner_id not in order.message_partner_ids:
+                order.message_subscribe([order.partner_id.id])
+        return True
+    
+    
     @api.onchange('order_line')
     def get_product_type(self):
         type_loc=''
