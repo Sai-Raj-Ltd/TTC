@@ -64,6 +64,36 @@
                         <xpath expr="//field[@name='currency_id']" position="after">
                             <field name="type" invisible="1"/>
             </xpath>
+            
+<xpath expr="//button[@name='button_confirm']" position="replace">
+<button name="button_confirm" type="object" states="approved" string="Confirm Order" class="oe_highlight" id="bid_confirm"/>           
+</xpath>
+                               
+<xpath expr="//button[9]" position="replace"></xpath>           
+            
+<xpath expr="//button[@name='action_rfq_send']" position="after">
+<button name="button_validate" type="object"  string="Validate" class="oe_highlight" attrs="{'invisible': ['|',('state','not in',['draft','sent']),('type','=','Stock Item')] }"/>           
+</xpath>
+            
+<xpath expr="//button[@name='button_validate']" position="before">
+<button name="button_approved" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': [('state','!=','validated')] }"/>           
+</xpath>
+<xpath expr="//button[@name='button_validate']" position="before">
+<button name="button_approved" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': ['|',('state','not in',['draft','sent']),('type','in',['CAPEX','OPEX'])] }"/>           
+</xpath>
+            
+<xpath expr="//button[@name='button_cancel']" position="replace">
+<button name="button_cancel" states="draft,to approve,sent,purchase,validated,approved" string="Cancel" type="object"/>
+</xpath>
+
+<xpath expr="//button[@name='button_confirm']" position="after">
+<button name="action_rfq_send" states="validated,approved" string="Re-Send by Email" type="object" context="{'send_rfq':True}"/>
+</xpath>
+            
+<xpath expr="//button[@name='button_confirm']" position="after">
+<button name="print_quotation" string="Print RFQ" type="object" states="validated,approved" groups="base.group_user"/>
+</xpath>             
+
           </field>
       </record>
 
