@@ -3,6 +3,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
+from email.utils import formataddr
 
 
 class PurchaseOrder(models.Model):
@@ -124,6 +125,15 @@ class ProductTemplate(models.Model):
     rating = fields.Selection(
         [('0', 'Normal'), ('1', 'Low'), ('2','Medium'), ('3', 'High')], 'Rating', default='0', index=True)
     
+    def send_remainder(self):
+        template = self.env.ref('purchase_extended.send_reminder_mail')
+        mail = self.env['mail.mail'].create({
+             'subject':'Set Rating for Products reminder',
+            'body_html': 'Please set reting for unrated products',
+            'email_to':  [formataddr((partner.display_name,partner.login)) for partner in self.env.ref('purchase.group_purchase_manager').users]
+        })
+        mail.send()
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
@@ -186,3 +196,48 @@ class AccountMove(models.Model):
             
     def get_approve(self):
         self.approved=True    
+
+        
+class ProductSupplierinfo(models.Model):
+    _inherit = "product.supplierinfo"
+    
+    name = fields.Many2one(
+        'res.partner', 'Vendor',
+        ondelete='cascade', required=True,
+        help="Vendor of this product", domain="[('status','=','Done')]", check_company=True)
+
+    @api.onchange('name')
+    def _onchange_name(self):
+        self.currency_id = self.name.property_purchase_currency_id.id or self.env.company.currency_id.id
+        warning = {}
+        result = {}
+        if self.name.rating=='3':
+            records = self.env['res.partner'].search([('rating', 'in', ['1','2','0']),('status', '=', 'Done')])
+            if records:
+                warning = {
+                        'title': ('Alert!'),
+                        'message': ('There exists a vendor with higher rating'),
+                    }
+                if warning:
+                    result['warning'] = warning
+                    return result
+        if self.name.rating=='2':
+            records = self.env['res.partner'].search([('rating', 'in', ['1','0']),('status', '=', 'Done')])
+            if records:
+                warning = {
+                        'title': ('Alert!'),
+                        'message': ('There exists a vendor with higher rating'),
+                    }
+                if warning:
+                    result['warning'] = warning
+                    return result
+        if self.name.rating=='1':
+            records = self.env['res.partner'].search([('rating', 'in', ['0']),('status', '=', 'Done')])
+            if records:
+                warning = {
+                        'title': ('Alert!'),
+                        'message': ('There exists a vendor with higher rating'),
+                    }
+                if warning:
+                    result['warning'] = warning
+                    return result
