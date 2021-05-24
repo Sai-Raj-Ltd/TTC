@@ -20,6 +20,20 @@
           </field>
       </record>
       
+           <record id="view_partner_kanban_extended" model="ir.ui.view">
+        <field name="name">res.partner.kanban.extended</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="70"/>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+                
+            <xpath expr="//div[hasclass('oe_kanban_details')]//field[@name='display_name']" position="before">
+                            <field name="rating" widget="priority" class="mr-3"/>
+            </xpath>
+          </field>
+      </record>  
+      
+      
       
       
                 <record id="product_template_form_view_extended" model="ir.ui.view">
@@ -72,14 +86,14 @@
 <xpath expr="//button[9]" position="replace"></xpath>           
             
 <xpath expr="//button[@name='action_rfq_send']" position="after">
-<button name="button_validate" type="object"  string="Validate" class="oe_highlight" attrs="{'invisible': ['|',('state','not in',['draft','sent']),('type','=','Stock Item')] }"/>           
+<button name="button_validate" type="object"  string="Validate" class="oe_highlight" attrs="{'invisible': ['|',('state','not in',['draft','sent']),('type','not in',['CAPEX','OPEX'])] }"/>           
 </xpath>
             
 <xpath expr="//button[@name='button_validate']" position="before">
 <button name="button_approved" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': [('state','!=','validated')] }"/>           
 </xpath>
 <xpath expr="//button[@name='button_validate']" position="before">
-<button name="button_approved" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': ['|',('state','not in',['draft','sent']),('type','in',['CAPEX','OPEX'])] }"/>           
+<button name="button_approved" type="object" string="Approve" class="oe_highlight" attrs="{'invisible': ['|',('state','not in',['draft','sent']), ('type','!=','Stock Item')] }"/>           
 </xpath>
             
 <xpath expr="//button[@name='button_cancel']" position="replace">
