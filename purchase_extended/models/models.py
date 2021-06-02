@@ -58,52 +58,44 @@ class PurchaseOrder(models.Model):
         for rec in self.order_line:
             if type_loc not in ['CAPEX','OPEX']:
                 type_loc=rec.type
-        self.type=type_loc
-        
-        
-        
+        self.type=type_loc 
     
-    
-    @api.onchange('partner_id')
-    def get_warning(self):
-        warning = {}
-        result = {}
-        if self.partner_id.rating=='3':
-            records = self.env['res.partner'].search([('rating', 'in', ['1','2','0']),('status', '=', 'Done')])
-            if records:
-                warning = {
-                        'title': ('Alert!'),
-                        'message': ('There exists a vendor with higher rating'),
-                    }
-                if warning:
-                    result['warning'] = warning
-                    return result
-        if self.partner_id.rating=='2':
-            records = self.env['res.partner'].search([('rating', 'in', ['1','0']),('status', '=', 'Done')])
-            if records:
-                warning = {
-                        'title': ('Alert!'),
-                        'message': ('There exists a vendor with higher rating'),
-                    }
-                if warning:
-                    result['warning'] = warning
-                    return result
-        if self.partner_id.rating=='1':
-            records = self.env['res.partner'].search([('rating', 'in', ['0']),('status', '=', 'Done')])
-            if records:
-                warning = {
-                        'title': ('Alert!'),
-                        'message': ('There exists a vendor with higher rating'),
-                    }
-                if warning:
-                    result['warning'] = warning
-                    return result
+#     @api.onchange('partner_id')
+#     def get_warning(self):
+#         warning = {}
+#         result = {}
+#         if self.partner_id.rating=='3':
+#             records = self.env['res.partner'].search([('rating', 'in', ['1','2','0']),('status', '=', 'Done')])
+#             if records:
+#                 warning = {
+#                         'title': ('Alert!'),
+#                         'message': ('There exists a vendor with higher rating'),
+#                     }
+#                 if warning:
+#                     result['warning'] = warning
+#                     return result
+#         if self.partner_id.rating=='2':
+#             records = self.env['res.partner'].search([('rating', 'in', ['1','0']),('status', '=', 'Done')])
+#             if records:
+#                 warning = {
+#                         'title': ('Alert!'),
+#                         'message': ('There exists a vendor with higher rating'),
+#                     }
+#                 if warning:
+#                     result['warning'] = warning
+#                     return result
+#         if self.partner_id.rating=='1':
+#             records = self.env['res.partner'].search([('rating', 'in', ['0']),('status', '=', 'Done')])
+#             if records:
+#                 warning = {
+#                         'title': ('Alert!'),
+#                         'message': ('There exists a vendor with higher rating'),
+#                     }
+#                 if warning:
+#                     result['warning'] = warning
+#                     return result
                 
-                
-                
-
-
-    
+   
     
 class res_partner(models.Model):
     _name = 'res.partner'
